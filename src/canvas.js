@@ -7,11 +7,11 @@ canvas.height = window.innerHeight;
 var c = canvas.getContext('2d');
 
 var thicknessArray = [
-    '#ffaaee',
-    '#114488',
-    '#aa44ff',
-    '#aa1111',
-    '#aa35b1',
+    '#010E26',
+    '#001A47',
+    '#183466',
+    '#2B4C84',
+    '#387EF5',
 ];
 
 
@@ -108,16 +108,26 @@ for (var i = 0; i < 20; i++) {
 
 population = new Population(0, 100);
 
+
+
 function animate() {
     requestAnimationFrame(animate);
     c.clearRect(0,0,innerWidth, innerHeight);
     
     for (var i = 0; i < population.population.length; i++){
-        population[i].update(population, c);
+        population.population[i].update(population);
+        population.population[i].draw(c);
+
     }
 
+
 }
+
 
 let hsia = new Diglet();
 console.log(population);
 animate();
+
+
+
+//setTimeout(function(){population.naturalSelection();population.generate()}, 3000);
