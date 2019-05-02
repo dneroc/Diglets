@@ -64,6 +64,15 @@ class Diglet {
 
         this.totalGrowth += this.growthRate;
 
+        if(Math.random() < 0.0001){
+            population.naturalSelection();
+            let mate = floor(random(population.matingPool.length));
+            let partner = population.matingPool[mate];
+            let child = this.crossover(partner);
+            child.mutate(population.mutationRate);
+            population.population.push(child);
+        }
+
     }
 
 

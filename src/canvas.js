@@ -30,7 +30,6 @@ var circleArray = [];
 population = new Population(0.2, 100);
 
 
-
 function animate() {
     requestAnimationFrame(animate);
     c.clearRect(0,0,innerWidth, innerHeight);
@@ -40,12 +39,11 @@ function animate() {
         population.population[i].draw(c);
         
     }
-
-
 }
+
 
 animate();
 
 
-
-setInterval(function(){population.naturalSelection();population.generate()}, 3000);
+setInterval(function(){population.naturalSelection()}, 3000);
+//setInterval(function(){population.naturalSelection();population.generate()}, 3000);
