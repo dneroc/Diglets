@@ -18,7 +18,6 @@ class Diglet {
     }
 
 
-
     draw(c) {
         c.beginPath();
         c.arc(this.x,this.y , this.radius, 0, Math.PI * 2, false);
@@ -34,7 +33,6 @@ class Diglet {
 
 
         
-        //console.log(digletArray.population);
         for (let i = 0; i < digletArray.population.length; i++) {
 
 
