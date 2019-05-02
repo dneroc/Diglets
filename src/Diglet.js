@@ -3,9 +3,11 @@ class Diglet {
         
         this.genes = [];
         this.fitness = 0;
-        this.genes[0] = Math.floor(Math.random() * thicknessArray.length);
+        this.genes[0] = Math.floor(Math.random() * thicknessArray.length);      //cell thickness
+        this.genes[1] = Math.round(Math.random() * 100) / 100;                  //likelyness to cooperate
         this.growthRate = 1 - (this.genes[0] / thicknessArray.length);
         this.totalGrowth = 0;
+        this.health = 200;
 
 
         this.x = x;
@@ -39,8 +41,17 @@ class Diglet {
             if (this === digletArray[i]) continue;
             
             if (distance(this.x, this.y, digletArray.population[i].x, digletArray.population[i].y) - this.radius * 2 < 0) {
+
+                if(this.genes[1] > Math.round(Math.random() * 100) / 100) {
+
+
+                }
+
+
+
                 if (this.genes[0] > digletArray.population[i].genes[0]) {
                     this.totalGrowth += digletArray.population[i].totalGrowth;
+                    this.health += digletArray.population[i].health;
                     digletArray.population.splice(i,1);
                 }
             }
@@ -60,6 +71,7 @@ class Diglet {
         this.x += this.dx; 
         this.y += this.dy;
 
+        this.health += -0.00001 + this.growthRate;
         this.totalGrowth += this.growthRate;
 
         if(Math.random() < 0.0001){
@@ -125,6 +137,7 @@ class Diglet {
             if(random(1) < mutationRate) {
                 this.genes[0] = Math.floor(Math.random() * thicknessArray.length);
                 this.growthRate = 1 - (this.genes[0] / thicknessArray.length);
+                this.genes[1] = Math.round(Math.random() * 100) / 100;                  
             }
         }
     }

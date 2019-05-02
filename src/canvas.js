@@ -37,7 +37,9 @@ function animate() {
     for (var i = 0; i < population.population.length; i++){
         population.population[i].update(population);
         population.population[i].draw(c);
-        
+        if(population.population[i].health <= 0) {
+            population.population.splice(i,1);
+        }
     }
 }
 
