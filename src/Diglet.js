@@ -31,15 +31,22 @@ class Diglet {
 
     update(digletArray) {
 
-        for (let i = 0; i < digletArray.length; i++) {
+
+
+        
+        //console.log(digletArray.population);
+        for (let i = 0; i < digletArray.population.length; i++) {
+
 
             if (this === digletArray[i]) continue;
-            /**
-            if (distance(this.x, this.y, digletArray[i].x, digletArray[i].y) - this.radius * 2 < 0) {
-                console.log('has collided');
-
+            
+            if (distance(this.x, this.y, digletArray.population[i].x, digletArray.population[i].y) - this.radius * 2 < 0) {
+                if (this.genes[0] > digletArray.population[i].genes[0]) {
+                    this.totalGrowth += digletArray.population[i].totalGrowth;
+                    digletArray.population.splice(i,1);
+                }
             }
-            **/
+           
 
         }
         
@@ -109,7 +116,8 @@ class Diglet {
     mutate(mutationRate) {
         for(let i = 0; i < this.genes.length; i++) {
             if(random(1) < mutationRate) {
-                console.log("hi");
+                this.genes[0] = Math.floor(Math.random() * thicknessArray.length);
+                this.growthRate = 1 - (this.genes[0] / thicknessArray.length);
             }
         }
     }
