@@ -4,7 +4,7 @@ class Diglet {
         this.genes = [];
         this.fitness = 0;
         this.genes[0] = Math.floor(Math.random() * thicknessArray.length);      //cell thickness
-        this.genes[1] = Math.round(Math.random() * 100) / 100;                  //likelyness to cooperate
+        this.genes[1] = Math.round(Math.random() * 100) / 100;                  //likeliness to cooperate
         this.growthRate = 1 - (this.genes[0] / thicknessArray.length);
         this.totalGrowth = 0;
         this.health = 200;
@@ -42,14 +42,22 @@ class Diglet {
             
             if (distance(this.x, this.y, digletArray.population[i].x, digletArray.population[i].y) - this.radius * 2 < 0) {
 
-                if(this.genes[1] > Math.round(Math.random() * 100) / 100) {
+                if(digritos.isIn(this, digletArray.population[i]) == true) continue; 
 
+                else if(this.genes[1] > Math.round(Math.random() * 100) / 100) {
+                    if(digletArray.population[i].genes[1] > Math.round(Math.random() * 100) / 100){
+                        if(digritos.isIn(this) == true){
+                            digritos.addToDigrito(this, digletArray.population[i]);
+                        }
+                        else if(digritos.isIn(digletArray.population[i]) == true) {
+                            digritos.addToDigrito(digletArray.population[i], this);
+                        }
 
+                        else {digritos.createNew(new Digrito([this, digletArray.population[i]]));}
+                    }
                 }
 
-
-
-                if (this.genes[0] > digletArray.population[i].genes[0]) {
+                else if (this.genes[0] > digletArray.population[i].genes[0]) {
                     this.totalGrowth += digletArray.population[i].totalGrowth;
                     this.health += digletArray.population[i].health;
                     digletArray.population.splice(i,1);
@@ -71,10 +79,20 @@ class Diglet {
         this.x += this.dx; 
         this.y += this.dy;
 
-        this.health += -0.00001 + this.growthRate;
-        this.totalGrowth += this.growthRate;
 
-        if(Math.random() < 0.0001){
+        digritos.refreshGrowthRate();
+
+        if(digritos.isIn(this)) {
+            let gr = digritos.getGrowthRate(this);
+            this.health += -0.00001 + gr;
+            this.totalGrowth += gr;
+        }
+        else{ 
+            this.health += -0.00001 + this.growthRate;
+            this.totalGrowth += this.growthRate;
+        }
+
+        if(Math.random(1) < 0.0005){
             population.naturalSelection();
             let mate = floor(random(population.matingPool.length));
             let partner = population.matingPool[mate];

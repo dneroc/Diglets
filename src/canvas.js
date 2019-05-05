@@ -25,10 +25,9 @@ function distance(x1, y1, x2, y2) {
 }
 
 var circleArray = [];
+digritos = new Digritos();
 
-
-population = new Population(0.2, 100);
-
+population = new Population(0.5, 100);
 
 function animate() {
     requestAnimationFrame(animate);
