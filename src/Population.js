@@ -30,27 +30,15 @@ class Population {
                         j = -1;
 
                     }
-
                 }
-
-
             }
 
             this.population.push(new Diglet(x,y,dx,dy,radius))
         }
 
-
-
-
         this.matingPool = [];
 
-
-
-
-
-
     }
-
 
     naturalSelection() {
 

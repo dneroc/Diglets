@@ -6,6 +6,8 @@ canvas.height = window.innerHeight;
 
 var c = canvas.getContext('2d');
 
+let healthDecrease = -1;
+
 var thicknessArray = [
     '#FFCDB2',
     '#FFB4A2',
@@ -27,18 +29,18 @@ function distance(x1, y1, x2, y2) {
 var circleArray = [];
 digritos = new Digritos();
 
-population = new Population(0.5, 100);
+population = new Population(0.2, 100);
 
 function animate() {
     requestAnimationFrame(animate);
     c.clearRect(0,0,innerWidth, innerHeight);
-    
+        population.population = population.population.filter(diglet => diglet.health >= 0);
+        digritos.listof = digritos.listof.filter(array => array[0] != null);
+
     for (var i = 0; i < population.population.length; i++){
         population.population[i].update(population);
         population.population[i].draw(c);
-        if(population.population[i].health <= 0) {
-            population.population.splice(i,1);
-        }
+
     }
 }
 

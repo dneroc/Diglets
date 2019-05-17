@@ -4,10 +4,13 @@ class Diglet {
         this.genes = [];
         this.fitness = 0;
         this.genes[0] = Math.floor(Math.random() * thicknessArray.length);      //cell thickness
-        this.genes[1] = Math.round(Math.random() * 100) / 100;                  //likeliness to cooperate
-        this.growthRate = 1 - (this.genes[0] / thicknessArray.length);
+        this.genes[1] = (Math.round(Math.random() * 100) / 100) + 0.25;                  //likeliness to cooperate
+        this.growthRate = 1 - (this.genes[0] + 1 / thicknessArray.length);
         this.totalGrowth = 0;
-        this.health = 200;
+        this.health = 20000;
+        if(this.genes[0] == 5) {
+            this.growthRate == 0;
+        }
 
 
         this.x = x;
@@ -31,22 +34,22 @@ class Diglet {
 
 
     update(digletArray) {
-
-
-
         
         for (let i = 0; i < digletArray.population.length; i++) {
 
-
-            if (this === digletArray[i]) continue;
+            if (this == digletArray[i]) continue;
             
-            if (distance(this.x, this.y, digletArray.population[i].x, digletArray.population[i].y) - this.radius * 2 < 0) {
+            if (distance(this.x, this.y, digletArray.population[i].x, digletArray.population[i].y) - this.radius * 2 <= 0) {
 
-                if(digritos.isIn(this, digletArray.population[i]) == true) continue; 
+                if(digritos.bothIn(this, digletArray.population[i]) == true) {continue;} 
+
 
                 else if(this.genes[1] > Math.round(Math.random() * 100) / 100) {
                     if(digletArray.population[i].genes[1] > Math.round(Math.random() * 100) / 100){
-                        if(digritos.isIn(this) == true){
+
+                        if(digritos.isIn(this) == true && digritos.isIn(digletArray.population[i])) { continue}
+                        
+                        else if(digritos.isIn(this) == true){
                             digritos.addToDigrito(this, digletArray.population[i]);
                         }
                         else if(digritos.isIn(digletArray.population[i]) == true) {
@@ -58,10 +61,25 @@ class Diglet {
                 }
 
                 else if (this.genes[0] > digletArray.population[i].genes[0]) {
-                    this.totalGrowth += digletArray.population[i].totalGrowth;
-                    this.health += digletArray.population[i].health;
-                    digletArray.population.splice(i,1);
+                    if(digritos.isIn(this)) {
+                        digritos.groupEat(this, digletArray.population[i])
+                        digletArray.population.splice(i,1);
+
+                    }
+
+                    else {
+                        this.totalGrowth += digletArray.population[i].totalGrowth;
+                        this.health += digletArray.population[i].health;
+                        digletArray.population.splice(i,1);
+                    }
                 }
+/*                else {
+                    this.dx = - this.dx;
+                    this.dy = - this.dy;
+                    digletArray.population[i].dx = - digletArray.population[i].dx;
+                    digletArray.population[i].dy = - digletArray.population[i].dy;
+                }*/ 
+
             }
            
 
@@ -70,10 +88,16 @@ class Diglet {
         
         
         if (this.x + this.radius >= innerWidth || this.x - this.radius <= 0) {
-            this.dx = - this.dx;
+            if(digritos.isIn(this) === true) {
+                digritos.groupBounce(this, "x");
+            }
+            else{this.dx = - this.dx;}
         }
         if (this.y + this.radius >= innerHeight || this.y - this.radius <= 0) {
-            this.dy = - this.dy;
+            if(digritos.isIn(this) === true) {
+                digritos.groupBounce(this, "y");   
+            }
+            else{this.dy = - this.dy;}
         }
 
         this.x += this.dx; 
@@ -84,11 +108,11 @@ class Diglet {
 
         if(digritos.isIn(this)) {
             let gr = digritos.getGrowthRate(this);
-            this.health += -0.00001 + gr;
+            this.health +=  healthDecrease + gr;
             this.totalGrowth += gr;
         }
         else{ 
-            this.health += -0.00001 + this.growthRate;
+            this.health += healthDecrease + this.growthRate;
             this.totalGrowth += this.growthRate;
         }
 

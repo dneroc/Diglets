@@ -1,7 +1,16 @@
 class Digritos {
 	constructor() {
 		this.listof = [];
-		this.test = "hi";
+	}
+
+
+	findGroup(diglet){
+		for(let digritoNo = 0; digritoNo < this.listof.length; digritoNo++) {
+			if(this.listof[digritoNo].members.includes(diglet)) {
+				return digritoNo;
+			}
+		}
+		return false;
 	}
 
 	createNew(digrito) {
@@ -9,19 +18,15 @@ class Digritos {
 	}
 
 	addToDigrito(currentMember, newMember) {
-		for(let i = 0; i < this.listof.length; i++) {
-			if(this.listof[i].members.includes(currentMember)) {
-				this.listof[i].members.push(newMember);
-			}
-		}
+		this.listof[this.findGroup(currentMember)].members.push(newMember);
 	}
 
 	getGrowthRate(dig) {
-		for(let i = 0; i < this.listof.length; i++) {
-			if(this.listof[i].members.includes(dig1)) {
-				return this.listof[i].growthRate;
-			}
-		}
+		return this.listof[this.findGroup(dig)].growthRate;
+	}
+
+	groupEat(dig,victim) {
+		this.listof[this.findGroup(dig)].groupEats(victim);
 	}
 
 	refreshGrowthRate() {
@@ -32,14 +37,18 @@ class Digritos {
 
 	isIn(dig) {
 		for(let i = 0; i < this.listof.length; i++) {
-			if(this.listof[i].members.includes(dig1)) {return true;} else{return false;}
+			if(this.listof[this.findGroup(dig)]) {return true;} else{return false;}
 		}
 	}
 
-	isIn(dig1, dig2) {
-		for(let i = 0; i < this.listof.length; i++) {
+	bothIn(dig1, dig2) {
+			for(let i = 0; i < this.listof.length; i++) {
 			if(this.listof[i].members.includes(dig1) && this.listof[i].members.includes[dig2]) {return true;} else{return false;}
 		}
+	}
+
+	groupBounce(diglet, coord) {
+		this.listof[this.findGroup(diglet)].bounce(coord);
 	}
 }
 
@@ -66,13 +75,39 @@ class Digrito {
 
 	}
 
+	groupEats(victim) {
+		let nutrients = victim / this.members.length;
+		for(let i = 0; i < this.members.length; i++) {
+			this.members.health += nutrients;
+			this.members.totalGrowth += nutrients;
+		}
+	}
+
 	growthRateRefresh() {
 		let gr = 0;
 		for(let i = 0; i < this.members.length; i++) {
+			this.members[i].dx = this.dx;
+			this.members[i].dy = this.dy;
 			gr += this.members[i].growthRate;
 		}
 		this.growthRate = gr;
 	}
 
+	bounce(coord) {
 
+		if(coord === "x" ){
+			for(let i = 0; i < this.members.length; i++) {
+				this.members[i].dx = -this.members[i].dx;
+				console.log("hi");
+
+			}
+		}
+		if(coord === "y"){
+			for(let i = 0; i < this.members.length; i++) {
+				this.members[i].dy = -this.members[i].dy;
+				console.log("bye");
+
+			}
+		}
+	}
 }
