@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Testing</title>
+
+    </head>
+    <body>
+        <canvas></canvas>
+       <script>
+            function setup() {
+                //...
+            }
+        </script>
+
+        <p id="failure"></p>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.7.3/p5.js"></script> 
+        <script src="Population.js"></script>
+        <script src="Digrito.js"></script>
+        <script src="Diglet.js"></script>
+        <script src="testcanvas.js"></script>
+        <script src="tests.js"></script>
+    </body>
+</html>
+
+
+
+
+
+<!-- 
+
+
+<p id="failure"></p>
+
+<script>
+function myFunction() {
+  var message, x;
+  message = document.getElementById("message");
+  message.innerHTML = "";
+  x = document.getElementById("demo").value;
+  try { 
+    if(x == "")  throw "is Empty";
+    if(isNaN(x)) throw "not a number";
+    if(x > 10)   throw "too high";
+    if(x < 5)  throw "too low";
+  }
+  catch(err) {
+    message.innerHTML = "Input " + err;
+  }
+} -->

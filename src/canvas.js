@@ -1,14 +1,14 @@
-var canvas = document.querySelector('canvas');
+let canvas = document.querySelector('canvas');
 
 
-canvas.width = window.innerWidth;
-canvas.height = window.innerHeight;
+canvas.width = window.innerWidth - 40;
+canvas.height = window.innerHeight -200;
 
-var c = canvas.getContext('2d');
-
+let c = canvas.getContext('2d');
+let refreshIntervalID;
 let healthDecrease = -1;
 
-var thicknessArray = [
+let thicknessArray = [
     '#FFCDB2',
     '#FFB4A2',
     '#E5989B',
@@ -26,27 +26,40 @@ function distance(x1, y1, x2, y2) {
 
 }
 
-var circleArray = [];
-digritos = new Digritos();
-
-population = new Population(0.2, 100);
-
 function animate() {
-    requestAnimationFrame(animate);
-    c.clearRect(0,0,innerWidth, innerHeight);
-        population.population = population.population.filter(diglet => diglet.health >= 0);
-        digritos.listof = digritos.listof.filter(array => array[0] != null);
 
-    for (var i = 0; i < population.population.length; i++){
-        population.population[i].update(population);
-        population.population[i].draw(c);
-
+    if(!restarted){
+        requestAnimationFrame(animate);
     }
+    if(!paused) {
+        running = true;
+        c.clearRect(0,0,innerWidth, innerHeight);
+            population.members = population.members.filter(diglet => diglet.health > 0);
+            digritos.listof = digritos.listof.filter(array => array[0] != null);
+
+        for (var i = 0; i < population.members.length; i++){
+            population.members[i].update(population.members);
+            population.members[i].draw(c);
+
+        }
+    }
+ 
 }
 
+function run() {
+    digritos = new Digritos();
+    restarted = false;
+    population = new Population(settings["mutationRate"], settings["populationSize"]);
+    if(settings["algorithm"] === "generation") {
+        refreshIntervalID = setInterval(function(){population.naturalSelection();population.generate()}, 10000);
+    }
+    pauseButton.disabled = false;
+    runButton.disabled = true;
+    animate();
+}
 
-animate();
+//setInterval(function(){console.log(population.members)}, 10000);
 
-
-setInterval(function(){population.naturalSelection()}, 3000);
+//setInterval(function(){mc()}, 10000);
+//setInterval(function(){population.naturalSelection()}, 3000);
 //setInterval(function(){population.naturalSelection();population.generate()}, 3000);

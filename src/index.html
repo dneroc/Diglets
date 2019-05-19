@@ -3,7 +3,103 @@
     <head>
         <meta charset="UTF-8">
         <title>Diglets</title>
-        <style type"text/css">
+
+
+        <script>
+
+
+let paused, running, restarted,requestId;
+
+
+let settings = {
+  populationSize: 100,
+  mutationRate: 0.2,
+  algorithm: "continuous",
+  health: 2000
+};
+
+
+function restart() {
+  //if(requestId) {
+    window.cancelAnimationFrame(requestId);
+    c.clearRect(0,0,innerWidth, innerHeight);
+    if(refreshIntervalID) {
+      clearInterval(refreshIntervalID);
+    }
+    restarted = true;
+    runButton.disabled = false;
+    c.clearRect(0,0,innerWidth, innerHeight);
+
+  //}
+}
+
+
+function togglePause() {
+
+  var pauseValue = document.getElementById("pauseButton");
+  if (running) {
+      paused = true;
+      running = false;
+      document.getElementById("pauseButton").innerHTML = "Unpause";
+
+  } 
+  else if (!running) {
+     paused = false;
+      document.getElementById("pauseButton").innerHTML = "Pause";
+
+
+    }
+
+}
+
+function changeSetting(name,value) {
+  if (settings[name] == value)
+    return;
+ settings[name] = value;
+ document.getElementById("tout").innerHTML = value;
+}
+
+function init() {
+   
+   runButton = document.getElementById("runButton");
+   running = false;
+   pauseButton = document.getElementById("pauseButton");
+   paused = false;
+   restartButton = document.getElementById("restartButton");
+
+   restartButton.onclick = restart;
+   runButton.onclick = run;
+   pauseButton.onclick = togglePause;
+
+  populationSelect = document.getElementById("populationSelect");
+  populationSelect.value = "100";
+
+  mutationSelect = document.getElementById("mutationSelect");
+  mutationSelect.value = "0.05";
+
+  algorithmSelect = document.getElementById("algorithmSelect");
+  algorithmSelect.value = "continuous";
+
+  healthSelect = document.getElementById("healthSelect");
+  healthSelect.value = "2000";
+   
+
+
+
+   populationSelect.onchange = function() { changeSetting("populationSize", parseInt(populationSelect.value)) };
+
+   mutationSelect.onchange = function() { changeSetting("mutationRate", mutationSelect.value) };
+
+   algorithmSelect.onchange = function() { changeSetting("algorithm", algorithmSelect.value) };
+
+   healthSelect.onchange = function() { changeSetting("healthSelect", parseInt(healthSelect.value)) };
+
+  
+   restart();
+};
+
+</script>
+<!--        <style type"text/css">
             canvas {
                 border : 1px solid black;
             }
@@ -11,11 +107,12 @@
             body {
                 margin: 0;
             }
-        </style>
+        </style> -->
 
     </head>
-    <body>
-        <canvas></canvas>
+    <body onload="init()">
+        <canvas style = "border : 1px solid black; margin-left: 10px"></canvas>
+
 
  
         <script>
@@ -28,5 +125,60 @@
         <script src="Digrito.js"></script>
         <script src="Diglet.js"></script>
         <script src="canvas.js"></script>
+
+
+<p style = "margin-top: 2">
+    <button id="runButton">Run</button>
+    <button id="pauseButton" disabled>Pause</button>
+    <button id="restartButton">Restart</button><br><br></p>
+
+    <form>
+        Population Size:
+        <select id="populationSelect">
+            <option value="50">50</option>
+            <option value="100">100</option>
+            <option value="150">150</option>
+            <option value="200">200</option>
+        </select>
+    </form>
+       <form>
+        Mutation Rate:
+        <select id="mutationSelect">
+             <option value="0">0</option>
+             <option value="0.0001">0.01%</option>
+             <option value="0.0005">0.05%</option>
+             <option value="0.001">0.1%</option>
+             <option value="0.005">0.5%</option>
+             <option value="0.01" >1%</option>
+             <option value="0.02">2%</option>
+             <option value="0.05">5%</option>
+             <option value="0.1">10%</option>
+             <option value="0.15">15%</option>
+             <option value="0.2">20%</option>
+             <option value="0.25">25%</option>
+        </select>
+    </form>
+       <form>
+        Algorithm Method:
+        <select id="algorithmSelect">
+            <option value="continuous">continuous</option>
+            <option value="generation">generation</option>
+        </select>
+    </form>
+       <form>
+        Health:
+        <select id="healthSelect">
+            <option value="1500">1500</option>
+            <option value="2000">2000</option>
+            <option value="2500">2500</option>
+            <option value="3000">3000</option>
+        </select>
+    </form>
+
+  </p>
+    <p id = "tout"> </p>
+
+
+
     </body>
 </html>
