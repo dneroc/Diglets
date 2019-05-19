@@ -7,8 +7,6 @@ class Population {
 
         this.members = [];
 
-
-
         for (let i = 0; i < num; i++) {
             let radius = 10;
             let x = Math.random() * (innerWidth - radius * 2) + radius;

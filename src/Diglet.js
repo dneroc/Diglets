@@ -20,16 +20,13 @@ class Diglet {
 
     }
 
-
-    // just draws diglets
+    // just draws diglets""
     draw(c) {
         c.beginPath();
         c.arc(this.x,this.y , this.radius, 0, Math.PI * 2, false);
         c.fillStyle = this.color;
         c.fill();
     }
-
-
 
     //big method that moves diglets every frame. Takes in a digletArray(usually the population.members)/
     update(digletArray) {
@@ -44,7 +41,6 @@ class Diglet {
             
             // if two diglets touch
             if (distance(this.x, this.y, digletArray[i].x, digletArray[i].y) - this.radius * 2 <= 0) {
-
 
                 //If both diglets cooperate.
                 if(this.genes[1] > Math.round(Math.random() * 100) / 100) {
@@ -81,7 +77,6 @@ class Diglet {
                 }
             }
         }
-        
         
         // bounce diglets when they hit the top or bottom of the canvas,
         if (this.x + this.radius >= innerWidth || this.x - this.radius <= 0) {
@@ -123,7 +118,6 @@ class Diglet {
             this.totalGrowth += this.growthRate;
         }
 
-
         if(settings["algorithm"] === "continuous") {
             if(Math.random(1) < 0.0005){
                 population.naturalSelection();
@@ -134,14 +128,12 @@ class Diglet {
                 population.members.push(child);
             }
         }
-
     }
 
     //fitness is just the total growth of the Diglet
     fitness() {
         return this.totalGrowth;
     }
-
 
     // a crossover function
     crossover(partner) {
@@ -151,10 +143,9 @@ class Diglet {
 
         //create a random midpoint in the array
         let midpoint = floor(random(this.genes.length));
-
         
         for(let i = 0; i < this.genes.length; i++) {
-            if (i == midpoint) child.genes[i] = this.genes[i];
+            if (i === midpoint) child.genes[i] = this.genes[i];
             else child.genes[i] = partner.genes[i];
         }
         child.color = thicknessArray[child.genes[0]];
@@ -165,7 +156,6 @@ class Diglet {
         var dx = (Math.random() - 0.5);
         var dy = (Math.random() - 0.5);
 
-        
 
         for (let j = 0; j < population.members.length; j++) {
             if(distance(x,y, population.members[j].x, population.members[j].y) - child.radius * 2 < 0) {
@@ -174,9 +164,7 @@ class Diglet {
                 y = Math.random() * (innerHeight - this.radius * 2) + child.radius;
 
                 j = -1;
-
             }
-
         }
 
         child.x = x;
@@ -185,8 +173,6 @@ class Diglet {
         child.dy = dy;
         return child;
     }
-
-
 
     mutate(mutationRate) {
         for(let i = 0; i < this.genes.length; i++) {

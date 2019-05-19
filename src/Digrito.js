@@ -57,10 +57,6 @@ class Digritos {
 	}
 }
 
-
-
-
-
 class Digrito {
 	constructor(members) {
 		
