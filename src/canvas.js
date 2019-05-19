@@ -58,8 +58,3 @@ function run() {
     animate();
 }
 
-//setInterval(function(){console.log(population.members)}, 10000);
-
-//setInterval(function(){mc()}, 10000);
-//setInterval(function(){population.naturalSelection()}, 3000);
-//setInterval(function(){population.naturalSelection();population.generate()}, 3000);

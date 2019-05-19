@@ -20,17 +20,17 @@ let settings = {
 
 
 function restart() {
-  //if(requestId) {
-    window.cancelAnimationFrame(requestId);
-    c.clearRect(0,0,innerWidth, innerHeight);
-    if(refreshIntervalID) {
-      clearInterval(refreshIntervalID);
-    }
-    restarted = true;
-    runButton.disabled = false;
-    c.clearRect(0,0,innerWidth, innerHeight);
 
-  //}
+  window.cancelAnimationFrame(requestId);
+  c.clearRect(0,0,innerWidth, innerHeight);
+  if(refreshIntervalID) {
+    clearInterval(refreshIntervalID);
+  }
+  restarted = true;
+  pauseButton.disabled = true;
+  runButton.disabled = false;
+  c.clearRect(0,0,innerWidth, innerHeight);
+
 }
 
 
@@ -73,13 +73,10 @@ function init() {
 
   populationSelect = document.getElementById("populationSelect");
   populationSelect.value = "100";
-
   mutationSelect = document.getElementById("mutationSelect");
   mutationSelect.value = "0.05";
-
   algorithmSelect = document.getElementById("algorithmSelect");
   algorithmSelect.value = "continuous";
-
   healthSelect = document.getElementById("healthSelect");
   healthSelect.value = "2000";
    
@@ -87,11 +84,8 @@ function init() {
 
 
    populationSelect.onchange = function() { changeSetting("populationSize", parseInt(populationSelect.value)) };
-
    mutationSelect.onchange = function() { changeSetting("mutationRate", mutationSelect.value) };
-
    algorithmSelect.onchange = function() { changeSetting("algorithm", algorithmSelect.value) };
-
    healthSelect.onchange = function() { changeSetting("healthSelect", parseInt(healthSelect.value)) };
 
   
@@ -99,15 +93,6 @@ function init() {
 };
 
 </script>
-<!--        <style type"text/css">
-            canvas {
-                border : 1px solid black;
-            }
-
-            body {
-                margin: 0;
-            }
-        </style> -->
 
     </head>
     <body onload="init()">
